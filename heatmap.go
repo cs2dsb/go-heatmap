@@ -146,7 +146,12 @@ func mkDot(size float64) draw.Image {
 }
 
 func (l limits) translate(p DataPoint, i draw.Image, dotsize int) (rv image.Point) {
+	x := float64(p.X())
+	y := float64(p.Y())
+	rv.X = int(x)
+	rv.Y = int(y)
 	return
+	/*
 	// Normalize to 0-1
 	x := float64(p.X()-l.Min.X()) / float64(l.Dx())
 	y := float64(p.Y()-l.Min.Y()) / float64(l.Dy())
@@ -156,6 +161,7 @@ func (l limits) translate(p DataPoint, i draw.Image, dotsize int) (rv image.Poin
 	rv.Y = int((1.0 - y) * float64((i.Bounds().Max.Y - dotsize)))
 
 	return
+	*/
 }
 
 func (l limits) placePoint(p DataPoint, i, dot draw.Image) {

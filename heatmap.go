@@ -94,6 +94,11 @@ func warm(out, in draw.Image, opacity uint8, colors []color.Color) {
 				var outcol color.Color
 				if percent == 0 {
 					outcol = color.Transparent
+					outcol = color.NRGBA{
+						uint8(0),
+						uint8(0),
+						uint8(0),
+						uint8(50)}
 				} else {
 					template := colors[int((collen-1)*(1.0-percent))]
 					tr, tg, tb, ta := template.RGBA()
@@ -146,22 +151,9 @@ func mkDot(size float64) draw.Image {
 }
 
 func (l limits) translate(p DataPoint, i draw.Image, dotsize int) (rv image.Point) {
-	x := float64(p.X())
-	y := float64(p.Y())
-	rv.X = int(x)
-	rv.Y = int(y)
+	rv.X = int(p.X()) - dotsize / 2
+	rv.Y = int(p.Y()) - dotsize / 2
 	return
-	/*
-	// Normalize to 0-1
-	x := float64(p.X()-l.Min.X()) / float64(l.Dx())
-	y := float64(p.Y()-l.Min.Y()) / float64(l.Dy())
-
-	// And remap to the image
-	rv.X = int(x * float64((i.Bounds().Max.X - dotsize)))
-	rv.Y = int((1.0 - y) * float64((i.Bounds().Max.Y - dotsize)))
-
-	return
-	*/
 }
 
 func (l limits) placePoint(p DataPoint, i, dot draw.Image) {
